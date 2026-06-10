@@ -17,7 +17,7 @@ inline bool ccmPublish() {
   dtostrf(drainageMl(), 1, 1, buf);
 
   String xml = agri::ccmEnvelopeOpen();
-  xml += agri::ccmDatum("Drainage",
+  xml += agri::ccmDatumNT("Drainage", g_cfg.common.ccm_ntype,
                         g_cfg.common.ccm_room,
                         g_cfg.common.ccm_region,
                         g_cfg.ccm_order,

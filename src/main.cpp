@@ -13,7 +13,7 @@
 #include "ccm_pub.h"
 
 const char *FW_NAME    = "agri-drain-poe";
-const char *FW_VERSION = "0.1.0";
+const char *FW_VERSION = "0.2.0";
 
 // globals declared extern in headers
 AppConfig g_cfg;

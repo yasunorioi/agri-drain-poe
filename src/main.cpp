@@ -12,8 +12,10 @@
 #include "mqtt_pub.h"
 #include "ccm_pub.h"
 
-const char *FW_NAME    = "agri-drain-poe";
-const char *FW_VERSION = "0.2.0";
+const char *FW_NAME     = "agri-drain-poe";
+const char *FW_VERSION  = "0.3.0";
+const char *FW_REPO     = "yasunorioi/agri-drain-poe";
+const char *FW_BIN_NAME = "agri-drain-poe.bin";
 
 // globals declared extern in headers
 AppConfig g_cfg;
@@ -103,11 +105,17 @@ void setup() {
   agri::mdnsBegin(g_cfg.common.hostname);
   agri::otaBegin(g_cfg.common.hostname);
 
+  // GitHub-release self-update: boot-time check + daily re-check (poll), applied
+  // semi-automatically from the dashboard button. Matches env/rain/flow/canopy.
+  agri::OTA::begin(FW_REPO, FW_BIN_NAME, FW_VERSION);
+  agri::OTA::checkLatest();
+
   Serial.println("[BOOT] ready");
 }
 
 void loop() {
   agri::otaHandle();
+  agri::OTA::poll();
   agri::WebUI::handle(agri::Network::link_up, agri::Network::have_lease);
 
   uint32_t now = millis();
